@@ -15,16 +15,8 @@ module Administrate
       end
 
       def attributes
-        attributes = dashboard.show_page_attributes
-
-        if attributes.is_a? Array
-          attributes = { "" => attributes }
-        end
-
-        attributes.transform_values do |attrs|
-          attrs.map do |attr_name|
-            attribute_field(dashboard, resource, attr_name, :show)
-          end
+        dashboard.show_page_attributes.map do |attr_name|
+          attribute_field(dashboard, resource, attr_name, :show)
         end
       end
     end

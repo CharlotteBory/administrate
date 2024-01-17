@@ -69,13 +69,7 @@ module Administrate
     end
 
     def permitted_attributes(action = nil)
-      attributes = form_attributes action
-
-      if attributes.is_a? Hash
-        attributes = attributes.values.flatten
-      end
-
-      attributes.map do |attr|
+      form_attributes(action).map do |attr|
         attribute_types[attr].permitted_attribute(
           attr,
           resource_class: self.class.model,
@@ -89,11 +83,7 @@ module Administrate
     end
 
     def collection_attributes
-      if self.class::COLLECTION_ATTRIBUTES.is_a?(Hash)
-        self.class::COLLECTION_ATTRIBUTES.values.flatten
-      else
-        self.class::COLLECTION_ATTRIBUTES
-      end
+      self.class::COLLECTION_ATTRIBUTES
     end
 
     def search_attributes
@@ -117,12 +107,7 @@ module Administrate
     end
 
     def item_associations
-      attributes = if show_page_attributes.is_a?(Hash)
-                     show_page_attributes.values.flatten
-                   else
-                     show_page_attributes
-                   end
-      attribute_associated attributes
+      attribute_associated(show_page_attributes)
     end
 
     private
